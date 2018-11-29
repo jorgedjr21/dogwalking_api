@@ -9,7 +9,7 @@ services:
     volumes:
       - gems-dogwalking:/usr/local/bundle
       - $HOME/.ssh/id_rsa:/root/.ssh/id_rsa
-      - ./:/dogwalking
+      - ./:/dogwalking_api
     command: bash -c "rm -f tmp/pids/server.pid && rails s -p 3000 -b '0.0.0.0'"
     ports:
       - "3000:3000"

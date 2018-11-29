@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :dog_walkings_pet do
-    pet { nil }
-    dog_walking { nil }
+    pet
+    dog_walking
   end
 end
