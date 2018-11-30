@@ -20,7 +20,7 @@ class DogWalking < ApplicationRecord
 
   def as_json(_options = {})
     super(only: %i[id status schedule_date price duration start_at end_at created_at updated_at],
-          include: { dog_walking_positions: { only: %i[id longitude latitude] } }
+          include: { dog_walking_positions: { only: %i[id longitude latitude created_at updated_at] }, pets: {only: %i[name age]  } },
         ).merge(real_duration: real_duration)
   end
 

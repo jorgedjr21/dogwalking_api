@@ -129,7 +129,7 @@ RSpec.describe 'Dog Walkings', type: :request do
   describe 'PUT /api/v1/dog_walkings/:dog_walking_id/finish_walk' do
     context 'when the dog_walking exists' do
       context 'when the dog_walking is started' do
-        let!(:dog_walking_started) { create(:dog_walking, :started, pet_ids: [pet.id, pet_2.id]) }
+        let!(:dog_walking_started) { create(:dog_walking, :started, pet_ids: [pet.id, pet_2.id], start_at: Time.zone.parse("30/11/2018 00:26")) }
         before { put finish_walk_api_v1_dog_walking_path(id: dog_walking_started.id) }
 
         it 'must update the dog_walking status to started' do
@@ -138,7 +138,7 @@ RSpec.describe 'Dog Walkings', type: :request do
         end
 
         it 'must update the dog_walking start_at to now' do
-          expect(dog_walking_started.reload.start_at.strftime('%d/%m/%Y %H:%M')).to eq(Time.zone.now.strftime('%d/%m/%Y %H:%M'))
+          expect(dog_walking_started.reload.start_at.strftime('%d/%m/%Y %H:%M')).to eq("30/11/2018 00:26")
         end
 
         it 'must have http status 200' do
