@@ -10,18 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_29_004814) do
+ActiveRecord::Schema.define(version: 2018_11_29_220441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "dog_walking_positions", force: :cascade do |t|
+    t.bigint "dog_walking_id"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dog_walking_id"], name: "index_dog_walking_positions_on_dog_walking_id"
+  end
 
   create_table "dog_walkings", force: :cascade do |t|
     t.integer "status"
     t.datetime "schedule_date"
     t.decimal "price"
     t.decimal "duration"
-    t.float "latitude"
-    t.decimal "longitude"
     t.datetime "start_at"
     t.datetime "end_at"
     t.datetime "created_at", null: false
@@ -44,6 +51,7 @@ ActiveRecord::Schema.define(version: 2018_11_29_004814) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "dog_walking_positions", "dog_walkings"
   add_foreign_key "dog_walkings_pets", "dog_walkings"
   add_foreign_key "dog_walkings_pets", "pets"
 end

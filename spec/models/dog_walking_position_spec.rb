@@ -2,5 +2,5 @@
 
 require 'rails_helper'
 
-RSpec.describe DogWalkingsPet, type: :model do
+RSpec.describe DogWalkingPosition, type: :model do
 end

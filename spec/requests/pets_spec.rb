@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Pets', type: :request do
   let!(:pets) { create_list(:pet, 5) }
 
-  describe '/api/v1/pets' do
+  describe 'GET /api/v1/pets' do
     before { get api_v1_pets_path, params: {} }
     it 'must return all pets' do
       expect(response.body).to eq(pets.to_json)
@@ -32,7 +32,7 @@ RSpec.describe 'Pets', type: :request do
     context 'when the pet doesn\' exists' do
       before { get api_v1_pet_path(id: 999) }
       it 'must have http status 404' do
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe 'Pets', type: :request do
   end
 
   describe 'PUT /api/v1/pets/:id' do
-   context 'when the pet exists' do
+    context 'when the pet exists' do
      before { put api_v1_pet_path(id: pets.first.id), params: { name: 'Updated Name' } }
 
      it 'must update the pet' do
