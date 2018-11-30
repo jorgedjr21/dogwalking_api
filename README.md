@@ -2,7 +2,7 @@
 
 API para marcar e acompanhar passeios com pets :)
 
-#O que foi utilizado
+# O que foi utilizado
 - Docker e docker-compose para criação do ambiente
 - Simplecov para cobertura de testes
 - Rubocop para auxilio à boas praticas
