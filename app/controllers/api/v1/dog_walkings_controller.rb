@@ -3,13 +3,17 @@
 module Api
   module V1
     class DogWalkingsController < ApplicationController
-      before_action :set_dog_walking, only: %i[show start_walk finish_walk]
+      before_action :set_dog_walking, only: %i[show start_walk finish_walk calculate_price]
       def index
         json_response(DogWalking.all)
       end
 
       def show
         json_response(@dog_walking)
+      end
+
+      def calculate_price
+        json_response(price: DogWalking.calculate_price(@dog_walking))
       end
 
       def create

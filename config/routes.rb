@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :dog_walkings, only: %i[index show create] do
         resources :dog_walking_positions, only: %i[index show create]
         member do
+          get :calculate_price
           put :start_walk
           put :finish_walk
         end

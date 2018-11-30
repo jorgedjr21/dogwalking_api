@@ -18,6 +18,14 @@ RSpec.describe 'Dog Walkings', type: :request do
     end
   end
 
+  describe ' /api/v1/dog_walkings/:id/calculate_price' do
+    before { get calculate_price_api_v1_dog_walking_path(id: dog_walking.id), params: {} }
+
+    it 'must return the price json' do
+      expect(response.body).to eq({ price: 55.00 }.to_json)
+    end
+  end
+
   describe 'GET /api/v1/dog_walkings/:id' do
     context 'when the dog_walking exists' do
       before { get api_v1_dog_walking_path(id: dog_walking.id), params: {} }
