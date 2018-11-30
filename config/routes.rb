@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :pets
       resources :dog_walkings, only: %i[index show create] do
+        resources :dog_walking_positions, only: %i[index show create]
         member do
           put :start_walk
           put :finish_walk

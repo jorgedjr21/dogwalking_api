@@ -5,7 +5,7 @@ FactoryBot.define do
     status { DogWalking.statuses[:scheduled] }
     schedule_date { Time.zone.now + 1.day }
     price { 35.00 }
-    duration { :thirty_minutes }
+    duration { :sixty_minutes }
     start_at { Time.zone.now + 1.day }
     end_at { Time.zone.now + 1.day + 3.hours }
 
