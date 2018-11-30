@@ -16,6 +16,8 @@
 require 'ffaker'
 require 'factory_bot'
 require 'simplecov'
+require 'rspec/json_expectations'
+
 SimpleCov.start
 
 RSpec.configure do |config|

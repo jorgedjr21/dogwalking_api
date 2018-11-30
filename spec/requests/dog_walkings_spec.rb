@@ -3,23 +3,37 @@
 require 'rails_helper'
 
 RSpec.describe 'Dog Walkings', type: :request do
-  let!(:pet)         { create(:pet) }
-  let!(:pet_2)       { create(:pet) }
-  let!(:dog_walking) { create(:dog_walking, pet_ids: [pet.id, pet_2.id]) }
+  let!(:pet)              { create(:pet) }
+  let!(:pet_2)            { create(:pet) }
+  let!(:dog_walking)      { create(:dog_walking, pet_ids: [pet.id, pet_2.id]) }
+  let!(:past_dog_walking) { create(:dog_walking, pet_ids: [pet.id, pet_2.id], schedule_date: Time.zone.now - 1.day) }
 
   describe 'GET /api/v1/dog_walkings' do
-    before { get api_v1_dog_walkings_path, params: {} }
-    it 'must return all dog_walkings' do
-      expect(response.body).to eq(DogWalking.all.to_json)
+    context 'without filter param' do
+      before { get api_v1_dog_walkings_path, params: {} }
+      it 'must return all dog_walkings' do
+        expect(response.body).to eq(DogWalking.all.to_json)
+      end
+
+      it 'must have status code 200' do
+        expect(response).to have_http_status(200)
+      end
     end
 
-    it 'must have status code 200' do
-      expect(response).to have_http_status(200)
+    context 'with filtering future dog_walkings' do
+      before { get api_v1_dog_walkings_path, params: { filter: 'future' } }
+      it 'must return future dog_walkings' do
+        expect(JSON.parse(response.body)).not_to include(JSON.parse(past_dog_walking.to_json))
+      end
+
+      it 'must have status code 200' do
+        expect(response).to have_http_status(200)
+      end
     end
   end
 
-  describe ' /api/v1/dog_walkings/:id/calculate_price' do
-    before { get calculate_price_api_v1_dog_walking_path(id: dog_walking.id), params: {} }
+  describe ' /api/v1/dog_walkings/calculate_price' do
+    before { get api_v1_dog_walking_calculate_price_path(pets_number: 2, type: 'sixty_minutes') }
 
     it 'must return the price json' do
       expect(response.body).to eq({ price: 55.00 }.to_json)
@@ -31,6 +45,7 @@ RSpec.describe 'Dog Walkings', type: :request do
       before { get api_v1_dog_walking_path(id: dog_walking.id), params: {} }
 
       it 'must return a dog_walking information' do
+        dog_walking.calculate_real_duration
         expect(response.body).to eq(dog_walking.to_json)
       end
 

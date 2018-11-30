@@ -23,24 +23,27 @@ RSpec.describe DogWalking, type: :model do
     end
   end
 
-  describe '#calculate_walking_price' do
+  describe '#calculate_real_duration' do
     let!(:pet)         { create(:pet) }
     let!(:pet_2)       { create(:pet) }
     let!(:pet_3)       { create(:pet) }
+    let!(:dog_walking) { create(:dog_walking, pet_ids: [pet.id, pet_2.id, pet_3.id], start_at: Time.zone.now, end_at: Time.zone.now + 20.minutes) }
+    it 'must set the real duration of the walking' do
+      dog_walking.calculate_real_duration
+      expect(dog_walking.real_duration).to eq('20 minuto(s)')
+    end
+  end
 
+  describe '#calculate_walking_price' do
     context 'for sixty_minutes walking' do
-      let!(:dog_walking) { create(:dog_walking, pet_ids: [pet.id, pet_2.id, pet_3.id]) }
-
       it 'must return the value of the walking' do
-        expect(DogWalking.calculate_price(dog_walking)).to eq(75.00)
+        expect(DogWalking.calculate_price(3, 'sixty_minutes')).to eq(75.00)
       end
     end
 
     context 'for thirty_minutes walking' do
-      let!(:dog_walking) { create(:dog_walking, pet_ids: [pet.id, pet_2.id, pet_3.id], duration: :thirty_minutes) }
-
       it 'must return the value of the walking' do
-        expect(DogWalking.calculate_price(dog_walking)).to eq(55.00)
+        expect(DogWalking.calculate_price(3, 'thirty_minutes')).to eq(55.00)
       end
     end
   end
